@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Lights Out</title>
+    <meta charset="utf-8">
+    <style>
+      body {
+        background-color: #0a051e;
+        color: #0577b4;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 25px;
+      }
+
+      main, footer, header {
+        display: block;
+        width: 100%;
+        max-width: 750px;
+        min-width: 200px;
+      }
+
+      header {
+        text-align: center;
+      }
+
+      .board {
+        display: grid;
+        box-sizing: border-box;
+        grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+        grid-template-rows: 1fr 1fr 1fr 1fr 1fr;
+
+        padding: 0;
+        margin: 0;
+
+        column-gap: 5px;
+        row-gap: 5px;
+        width: 100%;
+        aspect-ratio: 1 / 1;
+      }
+
+      .board  form {
+        justify-self: stretch;
+        align-self: stretch;
+      }
+
+      .board button {
+        padding: 0;
+        border: none;
+        width: 100%;
+        height: 100%;
+        background-color: #0a2514;
+        transition: background-color 250ms ease-out 100ms;
+      }
+
+      .board button:hover {
+        background-color: #16502b;
+      }
+
+      .board button.on {
+        background-color: #0fc831
+      }
+
+      .board button.on:hover {
+        background-color: #12ed3a;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>Lights Out</h1>
+    </header>
+    <main>
+      <figure class="board">
+        <form action="#" method="post">
+          <button class="on" name="square" value="1,1" type="submit"></button>
+        </form>
+      </figure>
+    </main>
+    <footer>
+      Some closing text.
+    </footer>
+  </body>
+</html>
