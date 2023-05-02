@@ -10,11 +10,19 @@ class LightsOutBoardTest < Minitest::Test
   end
 
   def test_to_s
-    lights = Games::LightsOutBoard.new('0u3dj')
+    lights = Games::LightsOutBoard.new '0u3dj'
     assert_equal '0u3dj', lights.to_s
   end
 
   def test_initialize_error
-    assert_raises(ArgumentError) { Games::LightsOutBoard.new('012345') }
+    assert_raises(ArgumentError) { Games::LightsOutBoard.new '012345' }
+  end
+
+  def test_move
+    board = Games::LightsOutBoard.new 'oi720'
+    board.move! 0
+    assert_equal '02720', board.to_s
+    board.move! 13
+    assert_equal '00000', board.to_s
   end
 end

@@ -13,7 +13,7 @@ module Games
 
     def initialize(seed)
       unless LightsOutBoard.valid_seed? seed
-        raise ArgumentError.new "Invalid Seed"
+        raise ArgumentError, "Invalid Seed"
       end
       @seed = seed
       @lights = from_seed seed
@@ -35,6 +35,16 @@ module Games
       self
     end
 
+    def move!(index)
+      raise IndexError, 'Move index out of bounds' unless (0..31).cover? index
+      row, col = index.divmod 5
+      toggle_light row, col
+      toggle_light row - 1, col
+      toggle_light row + 1, col
+      toggle_light row, col - 1
+      toggle_light row, col + 1
+    end
+
     private
 
     def from_seed(seed)
@@ -47,9 +57,9 @@ module Games
     def lights_row(value)
       row = []
 
-      until value == 0
+      5.times do
         value, remainder = value.divmod 2
-        row.unshift(remainder == 1)
+        row = [remainder == 1] + row
       end
 
       row
@@ -58,13 +68,17 @@ module Games
     def to_seed
       @lights.map do |row|
         value = 0
-
         row.reverse_each.with_index do |light, idx|
           value += 2**idx if light
         end
 
         CHARACTER_VALUES[value]
       end.join
+    end
+
+    def toggle_light(row, col)
+      return unless (0..4).cover?(row) && (0..4).cover?(col)
+      @lights[row][col] = !@lights[row][col]
     end
   end
 end
