@@ -12,10 +12,12 @@ module Games
     end
 
     def self.random_seed
-      5.times.with_object([]) do |_,out|
+      5.times.with_object([]) do |_, out|
         out << CHARACTER_VALUES.sample
       end.join
     end
+
+    attr_reader :moves
 
     def initialize(seed)
       unless LightsOutBoard.valid_seed? seed
@@ -23,6 +25,7 @@ module Games
       end
       @seed = seed
       @lights = from_seed seed
+      @moves = 0
     end
 
     def to_s
@@ -53,6 +56,7 @@ module Games
       toggle_light row + 1, col
       toggle_light row, col - 1
       toggle_light row, col + 1
+      @moves += 1
     end
 
     private

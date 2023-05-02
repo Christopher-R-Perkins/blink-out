@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>Lights Out</title>
+    <title>Blink Out</title>
     <meta charset="utf-8">
     <style>
       body {
@@ -68,7 +68,7 @@
   </head>
   <body>
     <header>
-      <h1>Lights Out</h1>
+      <h1>Blink Out</h1>
     </header>
     <main>
       <figure class="board">
@@ -77,6 +77,27 @@
           <button class="<%= on? light %>" name="move" value="<%= idx %>" type="submit"></button>
         </form>
       <% end %>
+      <figcaption>
+        <dl>
+          <dt>Initial Seed:</dt>
+          <dd>
+            <a href="/game/<%= @board.initial_seed %>">
+              <%= @board.initial_seed %>
+            </a>
+          <dd>
+          <dt>Moves:</dt>
+          <dd>
+            <%= @board.moves %>
+          </dd>
+          <dt>New Game</dt>
+          <dd>
+            <a href="/game/<%= LIGHTSOUT.random_seed %>">
+              RANDOM SEED
+            </a>
+          </dd>
+        </dl>
+      </figcaption>
+
       </figure>
     </main>
     <footer>

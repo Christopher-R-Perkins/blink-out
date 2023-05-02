@@ -8,7 +8,6 @@ gem 'minitest'
 gem 'rack-test'
 gem 'sinatra'
 gem 'sinatra-contrib'
-gem 'webrick'
 
 group :production do
   gem "puma"
