@@ -73,7 +73,7 @@
     <main>
       <figure class="board">
       <% @board.each_with_index do |light, idx| %>
-        <form action="#" method="post">
+        <form action="<%= path %>" method="post">
           <button class="<%= on? light %>" name="move" value="<%= idx %>" type="submit"></button>
         </form>
       <% end %>

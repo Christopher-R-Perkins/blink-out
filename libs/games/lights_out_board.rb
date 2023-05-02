@@ -6,7 +6,7 @@ module Games
                         'u']
 
     def self.valid_seed?(seed)
-      return false unless seed.size == 5;
+      return false unless seed.size == 5
       return false unless seed.chars.all? { |ch| CHARACTER_VALUES.include? ch }
       true
     end
