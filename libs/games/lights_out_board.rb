@@ -11,6 +11,12 @@ module Games
       true
     end
 
+    def self.random_seed
+      5.times.with_object([]) do |_,out|
+        out << CHARACTER_VALUES.sample
+      end.join
+    end
+
     def initialize(seed)
       unless LightsOutBoard.valid_seed? seed
         raise ArgumentError, "Invalid Seed"

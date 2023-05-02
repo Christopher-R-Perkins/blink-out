@@ -36,4 +36,11 @@ class LightsOutBoardTest < Minitest::Test
     board = Games::LightsOutBoard.new 'fight'
     assert_equal 'fight', board.initial_seed
   end
+
+  def test_random_seed
+    10.times do
+      seed = Games::LightsOutBoard.random_seed
+      assert Games::LightsOutBoard.valid_seed?(seed)
+    end
+  end
 end
