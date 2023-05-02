@@ -25,4 +25,10 @@ class LightsOutBoardTest < Minitest::Test
     board.move! 13
     assert_equal '00000', board.to_s
   end
+
+  def test_move_error
+    board = Games::LightsOutBoard.new 'uuuuu'
+    assert_raises(IndexError) { board.move!(-1) }
+    assert_raises(IndexError) { board.move!(25) }
+  end
 end

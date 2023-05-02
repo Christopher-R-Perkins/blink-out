@@ -36,7 +36,7 @@ module Games
     end
 
     def move!(index)
-      raise IndexError, 'Move index out of bounds' unless (0..31).cover? index
+      raise IndexError, 'Move index out of bounds' unless (0..24).cover? index
       row, col = index.divmod 5
       toggle_light row, col
       toggle_light row - 1, col
