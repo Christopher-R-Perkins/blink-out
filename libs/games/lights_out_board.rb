@@ -35,6 +35,10 @@ module Games
       self
     end
 
+    def initial_seed
+      @seed
+    end
+
     def move!(index)
       raise IndexError, 'Move index out of bounds' unless (0..24).cover? index
       row, col = index.divmod 5

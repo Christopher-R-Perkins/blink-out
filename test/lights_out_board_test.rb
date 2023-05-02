@@ -31,4 +31,9 @@ class LightsOutBoardTest < Minitest::Test
     assert_raises(IndexError) { board.move!(-1) }
     assert_raises(IndexError) { board.move!(25) }
   end
+
+  def test_initial_seed
+    board = Games::LightsOutBoard.new 'fight'
+    assert_equal 'fight', board.initial_seed
+  end
 end
