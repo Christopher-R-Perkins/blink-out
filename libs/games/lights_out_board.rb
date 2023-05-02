@@ -25,7 +25,7 @@ module Games
 
     def each_with_index
       idx = 0
-      lights.each do |row|
+      @lights.each do |row|
         row.each do |light|
           yield light, idx
           idx += 1

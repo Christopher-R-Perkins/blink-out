@@ -72,9 +72,11 @@
     </header>
     <main>
       <figure class="board">
+      <% @board.each_with_index do |light, idx| %>
         <form action="#" method="post">
-          <button class="on" name="square" value="1,1" type="submit"></button>
+          <button class="<%= on? light %>" name="move" value="<%= idx %>" type="submit"></button>
         </form>
+      <% end %>
       </figure>
     </main>
     <footer>
