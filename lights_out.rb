@@ -38,6 +38,10 @@ post '/game' do
   redirect '/game'
 end
 
+get '/game/00000' do
+  redirect '/game/vvvvv'
+end
+
 get '/game/:seed' do
   seed = params[:seed]
 

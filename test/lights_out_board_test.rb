@@ -7,6 +7,7 @@ class LightsOutBoardTest < Minitest::Test
     assert Games::LightsOutBoard.valid_seed?('0u3dj')
     refute Games::LightsOutBoard.valid_seed?('pkmzd')
     refute Games::LightsOutBoard.valid_seed?('000000')
+    refute Games::LightsOutBoard.valid_seed?('pkm')
   end
 
   def test_to_s
