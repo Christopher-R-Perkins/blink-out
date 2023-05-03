@@ -1,0 +1,94 @@
+html {
+  background-image: linear-gradient(to bottom, #130742, #201c30);
+  background-repeat: no-repeat;
+}
+body {
+  color: #0577b4;
+  text-align: center;
+  font-size: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 25px;
+}
+
+h1 {
+  font-size: 60px;
+}
+
+a {
+  text-decoration: none;
+  color: #00a6ff;
+}
+
+main, footer, header {
+  box-sizing: border-box;
+  display: block;
+  width: 100%;
+  max-width: 90vh;
+}
+
+header, footer {
+  padding: 25px 0;
+}
+
+header {
+  background-image: linear-gradient(to bottom, #130742, #170758);
+  background-repeat: no-repeat;
+}
+
+main {
+  background-color: #170758;
+}
+
+footer {
+  background-image: linear-gradient(to bottom, #170758, #201c30);
+  background-repeat: no-repeat;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.board {
+  display: grid;
+  box-sizing: border-box;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr 1fr 1fr;
+  column-gap: 5px;
+  row-gap: 5px;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+}
+
+.board  form {
+  justify-self: stretch;
+  align-self: stretch;
+}
+
+.board figcaption {
+  grid-column: 1 / 6;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 0 25px;
+}
+
+.board button {
+  border: none;
+  width: 100%;
+  height: 100%;
+  background-color: #144928;
+  transition: background-color 250ms ease-out 100ms;
+}
+
+.board button:hover {
+  background-color: #1e8645;
+}
+
+.board button.on {
+  background-color: #0fc831
+}
+
+.board button.on:hover {
+  background-color: #12ed3a;
+}
