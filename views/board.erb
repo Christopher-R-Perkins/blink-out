@@ -4,29 +4,29 @@
           <button class="<%= on? light %>" name="move" value="<%= idx %>" type="submit"></button>
         </form>
       <% end %>
-      <figcaption>
-        <dl>
-          <dt>Initial Seed:</dt>
-          <dd>
-            <a href="/game/<%= @board.initial_seed %>">
-              <%= @board.initial_seed %>
-            </a>
-          <dd>
-        </dl>
-        <dl>
-          <dt>Moves:</dt>
-          <dd>
-            <%= @board.moves %>
-          </dd>
-        </dl>
-        <dl>
-          <dt>New Game</dt>
-          <dd>
-            <a href="/game/<%= LIGHTSOUT.random_seed %>">
-              RANDOM SEED
-            </a>
-          </dd>
-        </dl>
-      </figcaption>
+        <figcaption>
+          <dl>
+            <dt>Initial Seed:</dt>
+            <dd>
+              <a href="/game/<%= @board.initial_seed %>">
+                <%= @board.initial_seed %>
+              </a>
+            <dd>
+          </dl>
+          <dl>
+            <dt>Moves:</dt>
+            <dd>
+              <%= @board.moves %>
+            </dd>
+          </dl>
+          <dl>
+            <dt>New Game</dt>
+            <dd>
+              <a href="/game/<%= LIGHTSOUT.random_seed %>">
+                RANDOM SEED
+              </a>
+            </dd>
+          </dl>
+        </figcaption>
 
       </figure>

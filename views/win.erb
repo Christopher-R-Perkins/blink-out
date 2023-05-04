@@ -1,0 +1,18 @@
+      <h2>You Won!</h2>
+      <ul class="win">
+        <li>
+          Moves made: <%= @board.moves %>
+        </li>
+        <li>
+          Initial Seed:
+          <a href="/game/<%= @board.initial_seed %>">
+            <%= @board.initial_seed %>
+          </a>
+        </li>
+        <li>
+          New Game:
+          <a href="/game/<%= LIGHTSOUT.random_seed %>">
+            RANDOM SEED
+          </a>
+        </li>
+      </ul>

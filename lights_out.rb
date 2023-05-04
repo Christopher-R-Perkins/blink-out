@@ -34,8 +34,14 @@ end
 post '/game' do
   @board = session[:lights_out]
   @board.move! params['move'].to_i
-
+  redirect '/game/win' if @board.win?
   redirect '/game'
+end
+
+get '/game/win' do
+  @board = session[:lights_out]
+  redirect '/game' unless @board.win?
+  erb :win
 end
 
 get '/game/00000' do

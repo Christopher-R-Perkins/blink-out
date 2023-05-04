@@ -18,7 +18,7 @@ class LightsOutTest < Minitest::Test
   end
 
   def board_session(seed)
-    { "rack.session" => { lights_out: LIGHTSOUT.new(seed) }}
+    { "rack.session" => { lights_out: LIGHTSOUT.new(seed) } }
   end
 
   def test_index_redirect

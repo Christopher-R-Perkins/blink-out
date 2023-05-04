@@ -2,6 +2,7 @@ html {
   background-image: linear-gradient(to bottom, #130742, #201c30);
   background-repeat: no-repeat;
 }
+
 body {
   color: #0577b4;
   text-align: center;
@@ -14,6 +15,10 @@ body {
 
 h1 {
   font-size: 60px;
+}
+
+h2 {
+  font-size: 48px;
 }
 
 a {
@@ -91,4 +96,13 @@ footer {
 
 .board button.on:hover {
   background-color: #12ed3a;
+}
+
+.win {
+  width: 100%;
+  height: 70vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  font-size: 36px;
 }

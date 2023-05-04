@@ -44,4 +44,11 @@ class LightsOutBoardTest < Minitest::Test
       assert Games::LightsOutBoard.valid_seed?(seed)
     end
   end
+
+  def test_win
+    board = Games::LightsOutBoard.new '00000'
+    assert_equal true, board.win?
+    board.move! 0
+    assert_equal false, board.win?
+  end
 end

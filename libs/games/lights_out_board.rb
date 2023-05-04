@@ -59,6 +59,10 @@ module Games
       @moves += 1
     end
 
+    def win?
+      to_s == '00000'
+    end
+
     private
 
     def from_seed(seed)
