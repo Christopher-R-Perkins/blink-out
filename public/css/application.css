@@ -1,16 +1,15 @@
-html {
+body {
   background-image: linear-gradient(to bottom, #130742, #201c30);
   background-repeat: no-repeat;
-}
-
-body {
-  color: #0577b4;
-  text-align: center;
-  font-size: 20px;
+  box-sizing: border-box;
+  min-height: 100vh;
+  padding: 0 25px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 0 25px;
+  color: #0577b4;
+  font-size: 20px;
+  text-align: center;
 }
 
 h1 {
