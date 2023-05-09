@@ -1,20 +1,27 @@
 module Games
   class LightsOutBoard
-    CHARACTER_VALUES = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
-                        'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j',
-                        'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't',
-                        'u', 'v']
-
     def self.valid_seed?(seed)
-      return false unless seed.size == 5
-      return false unless seed.chars.all? { |ch| CHARACTER_VALUES.include? ch }
+      return false unless seed =~ /^[0-9a-f]{12}$/i
+      return false unless values_from_seed(seed).all? { |value| value < 64 }
       true
     end
 
     def self.random_seed
-      5.times.with_object([]) do |_, out|
-        out << CHARACTER_VALUES.sample
+      6.times.with_object([]) do |_, out|
+        out << ("%02x" % (0...35).to_a.sample)
       end.join
+    end
+
+    def self.values_from_seed(seed)
+      idx = 0
+      values = []
+
+      while idx < 12
+        values << seed[idx,2].to_i(16)
+        idx += 2
+      end
+
+      values
     end
 
     attr_reader :moves
@@ -24,7 +31,7 @@ module Games
         raise ArgumentError, "Invalid Seed"
       end
       @seed = seed
-      @lights = from_seed seed
+      @lights = LightsOutBoard.values_from_seed seed
       @moves = 0
     end
 
@@ -34,9 +41,11 @@ module Games
 
     def each_with_index
       idx = 0
+
       @lights.each do |row|
-        row.each do |light|
-          yield light, idx
+        6.times do
+          row, light = row.divmod 2
+          yield (light == 1), idx
           idx += 1
         end
       end
@@ -48,55 +57,25 @@ module Games
       @seed
     end
 
+    MOVE_FLIPS = { 0 => 3, 1 => 7, 2 => 14, 3 => 28, 4 => 56, 5 => 48 }
+
     def move!(index)
-      raise IndexError, 'Move index out of bounds' unless (0..24).cover? index
-      row, col = index.divmod 5
-      toggle_light row, col
-      toggle_light row - 1, col
-      toggle_light row + 1, col
-      toggle_light row, col - 1
-      toggle_light row, col + 1
+      raise IndexError, 'Move index out of bounds' unless (0...36).cover? index
+      row, col = index.divmod 6
+      @lights[row - 1] ^= (2**col) unless row == 0
+      @lights[row + 1] ^= (2**col) unless row == 5
+      @lights[row] ^= MOVE_FLIPS[col]
       @moves += 1
     end
 
     def win?
-      to_s == '00000'
+      @lights.all? &:zero?
     end
 
     private
 
-    def from_seed(seed)
-      seed.chars.each_with_object([]) do |character, board|
-        value = CHARACTER_VALUES.index character
-        board << lights_row(value)
-      end
-    end
-
-    def lights_row(value)
-      row = []
-
-      5.times do
-        value, remainder = value.divmod 2
-        row = [remainder == 1] + row
-      end
-
-      row
-    end
-
     def to_seed
-      @lights.map do |row|
-        value = 0
-        row.reverse_each.with_index do |light, idx|
-          value += 2**idx if light
-        end
-
-        CHARACTER_VALUES[value]
-      end.join
-    end
-
-    def toggle_light(row, col)
-      return unless (0..4).cover?(row) && (0..4).cover?(col)
-      @lights[row][col] = !@lights[row][col]
+      @lights.map { |row| '%02x' % row }.join
     end
   end
 end

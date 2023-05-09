@@ -1,5 +1,4 @@
 require "sinatra"
-require "sinatra/reloader" if development?
 require "tilt/erubis"
 
 require_relative 'libs/games/lights_out_board'
@@ -10,8 +9,13 @@ configure do
   enable :sessions
 end
 
+configure(:development) do
+  require "sinatra/reloader"
+  also_reload "libs/games/lights_out_board.rb"
+end
+
 helpers do
-  def on?(light)
+  def on_class(light)
     "on" if light
   end
 
@@ -27,7 +31,7 @@ end
 get '/game' do
   @board = session[:lights_out]
   redirect "/game/#{LIGHTSOUT.random_seed}" unless @board
-
+  redirect '/game/win' if @board.win?
   erb :board
 end
 
@@ -44,12 +48,13 @@ get '/game/win' do
   erb :win
 end
 
-get '/game/00000' do
-  redirect '/game/vvvvv'
+get '/game/000000000000' do
+  redirect '/game/3f3f3f3f3f3f'
 end
 
 get '/game/:seed' do
   seed = params[:seed]
+  redirect "/game/#{LIGHTSOUT.random_seed}" unless LIGHTSOUT.valid_seed? seed
 
   @board = LIGHTSOUT.new seed
   erb :board

@@ -1,7 +1,7 @@
       <figure class="board">
       <% @board.each_with_index do |light, idx| %>
         <form action="<%= path %>" method="post">
-          <button class="<%= on? light %>" name="move" value="<%= idx %>" type="submit"></button>
+          <button class="<%= on_class light %>" name="move" value="<%= idx %>" type="submit"></button>
         </form>
       <% end %>
         <figcaption>
