@@ -31,13 +31,22 @@ class LightsOutTest < Minitest::Test
     srand 12345
     get '/game'
     assert_equal 302, last_response.status
-    assert_equal '/game/3f3f3f3f3f3f', redirect_path # need to fix this
+    assert_equal '/game/221d01221d01', redirect_path
   end
 
   def test_game_view
-    get 'game', {}, board_session('3f3f3f3f3f3f')
+    get '/game', {}, board_session('3f3f3f3f3f3f')
     assert_equal 200, last_response.status
     lights_on = last_response.body.scan('class="on"').size
     assert_equal 36, lights_on
+  end
+
+  def test_game_win
+    session = board_session('000000103810')
+    post '/game', { move: '28' }, session
+
+    assert_equal 302, last_response.status
+    get last_response['Location'], {}, session
+    assert_includes last_response.body, 'class="win"'
   end
 end

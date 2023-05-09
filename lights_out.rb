@@ -24,27 +24,27 @@ helpers do
   end
 end
 
+before do
+  @board = session[:lights_out]
+end
+
 get '/' do
   redirect '/game'
 end
 
 get '/game' do
-  @board = session[:lights_out]
-  redirect "/game/#{LIGHTSOUT.random_seed}" unless @board
-  redirect '/game/win' if @board.win?
+  redirect "/game/#{LIGHTSOUT.random_seed}" unless @board && !@board.win?
   erb :board
 end
 
 post '/game' do
-  @board = session[:lights_out]
   @board.move! params['move'].to_i
   redirect '/game/win' if @board.win?
   redirect '/game'
 end
 
 get '/game/win' do
-  @board = session[:lights_out]
-  redirect '/game' unless @board.win?
+  redirect '/game' unless @board&.win?
   erb :win
 end
 
