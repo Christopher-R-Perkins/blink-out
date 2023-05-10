@@ -41,18 +41,18 @@ class LightsOutTest < Minitest::Test
   def test_index_redirect
     get '/'
     assert_equal 302, last_response.status
-    assert_equal '/game', redirect_path
+    assert_equal '/blinkout', redirect_path
   end
 
   def test_game_redirect
     srand 12345
-    get '/game'
+    get '/blinkout'
     assert_equal 302, last_response.status
-    assert_equal '/game/221d01221d01', redirect_path
+    assert_equal '/blinkout/221d01221d01', redirect_path
   end
 
   def test_game_view
-    get '/game', {}, board_session('3f3f3f3f3f3f')
+    get '/blinkout', {}, board_session('3f3f3f3f3f3f')
     assert_equal 200, last_response.status
     lights_on = last_response.body.scan('class="on"').size
     assert_equal 36, lights_on
@@ -60,7 +60,7 @@ class LightsOutTest < Minitest::Test
 
   def test_game_win
     session = board_session('000000103810')
-    post '/game', { move: '28' }, session
+    post '/blinkout', { move: '28' }, session
 
     assert_equal 302, last_response.status
     get last_response['Location'], {}, session

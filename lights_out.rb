@@ -4,7 +4,7 @@ require "tilt/erubis"
 require_relative 'libs/games/lights_out_board'
 require_relative 'libs/database/highscore_connector'
 
-LIGHTSOUT = Games::LightsOutBoard
+GAME = Games::LightsOutBoard
 
 configure do
   enable :sessions
@@ -40,49 +40,49 @@ after do
 end
 
 get '/' do
-  redirect '/game'
+  redirect '/blinkout'
 end
 
-get '/game' do
-  redirect "/game/#{LIGHTSOUT.random_seed}" unless @board && !@board.win?
+get '/blinkout' do
+  redirect "/blinkout/#{GAME.random_seed}" unless @board && !@board.win?
   erb :board
 end
 
-post '/game' do
+post '/blinkout' do
   @board.move! params['move'].to_i
   check_for_win
-  redirect '/game'
+  redirect '/blinkout'
 end
 
-get '/game/win' do
-  redirect '/game' unless @board&.win?
+get '/blinkout/win' do
+  redirect '/blinkout' unless @board&.win?
   erb :win
 end
 
-get '/game/000000000000' do
-  redirect '/game/3f3f3f3f3f3f'
+get '/blinkout/000000000000' do
+  redirect '/blinkout/3f3f3f3f3f3f'
 end
 
-get '/game/:seed' do
+get '/blinkout/:seed' do
   seed = params[:seed]
-  redirect "/game/#{LIGHTSOUT.random_seed}" unless LIGHTSOUT.valid_seed? seed
+  redirect "/blinkout/#{GAME.random_seed}" unless GAME.valid_seed? seed
 
-  @board = LIGHTSOUT.new seed
+  @board = GAME.new seed
   erb :board
 end
 
-post '/game/:seed' do
+post '/blinkout/:seed' do
   seed = params[:seed]
-  @board = LIGHTSOUT.new seed
+  @board = GAME.new seed
   session[:lights_out] = @board
 
   @board.move! params['move'].to_i
   check_for_win
-  redirect '/game'
+  redirect '/blinkout'
 end
 
 def check_for_win
   return unless @board&.win?
   @storage.update_score @board.initial_seed, @board.moves
-  redirect '/game/win'
+  redirect '/blinkout/win'
 end
