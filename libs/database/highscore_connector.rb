@@ -3,12 +3,17 @@ require 'pg'
 module Database
   class HighscoreConnector
     def initialize(logger)
-      @db = if Sinatra::Base.production?
-              PG.connect(ENV['DATABASE_URL'])
-            else
-              PG.connect dbname: "blink_out"
-            end
-      @table = Sinatra::Base.test? ? 'testscores' : 'highscores'
+      if ENV["RACK_ENV"] == "test"
+        @db = PG.connect dbname: "blink_out"
+        @table = 'testscores'
+      else
+        @db = if Sinatra::Base.production?
+                PG.connect ENV['DATABASE_URL']
+              else
+                PG.connect dbname: "blink_out"
+              end
+        @table = 'highscores'
+      end
       @logger = logger
     end
 
@@ -29,7 +34,7 @@ module Database
     end
 
     def query(statement, *params)
-      @logger.info "#{statement}: #{params}"
+      @logger.info "#{statement}: #{params}" unless @logger.nil?
       @db.exec_params statement, params
     end
 
