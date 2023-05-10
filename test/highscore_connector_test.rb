@@ -23,7 +23,7 @@ class HighscoreConnectorTest < Minitest::Test
 
   def teardown
     @storage.disconnect
-    connection = PG.connect dbname: 'blink_out', user: 'postgres', password: '!Redrum23'
+    connection = PG.connect dbname: 'blink_out'
     connection.exec "DROP TABLE testscores;"
     connection.close
   end

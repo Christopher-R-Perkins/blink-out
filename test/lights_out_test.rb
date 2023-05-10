@@ -21,6 +21,23 @@ class LightsOutTest < Minitest::Test
     { "rack.session" => { lights_out: LIGHTSOUT.new(seed) } }
   end
 
+  def setup
+    connection = PG.connect dbname: 'blink_out'
+    connection.exec <<~SQL
+      CREATE TABLE testscores (
+        seed char(12) NOT NULL UNIQUE CHECK (seed ~ '^[0-9a-f]{12}$'),
+        score integer NOT NULL CHECK (score > 0)
+      );
+    SQL
+    connection.close
+  end
+
+  def teardown
+    connection = PG.connect dbname: 'blink_out'
+    connection.exec "DROP TABLE testscores;"
+    connection.close
+  end
+
   def test_index_redirect
     get '/'
     assert_equal 302, last_response.status
