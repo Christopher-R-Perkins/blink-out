@@ -2,6 +2,7 @@ require "sinatra"
 require "tilt/erubis"
 
 require_relative 'libs/games/lights_out_board'
+require_relative 'libs/database/highscore_connector'
 
 LIGHTSOUT = Games::LightsOutBoard
 
@@ -12,6 +13,7 @@ end
 configure(:development) do
   require "sinatra/reloader"
   also_reload "libs/games/lights_out_board.rb"
+  also_reload 'libs/database/highscore_connector.rb'
 end
 
 helpers do
@@ -22,10 +24,19 @@ helpers do
   def path
     request.path_info
   end
+
+  def highscore(seed)
+    @storage.get_score seed
+  end
 end
 
 before do
   @board = session[:lights_out]
+  @storage = Database::HighscoreConnector.new logger
+end
+
+after do
+  @storage.disconnect
 end
 
 get '/' do
@@ -39,7 +50,7 @@ end
 
 post '/game' do
   @board.move! params['move'].to_i
-  redirect '/game/win' if @board.win?
+  check_for_win
   redirect '/game'
 end
 
@@ -66,5 +77,12 @@ post '/game/:seed' do
   session[:lights_out] = @board
 
   @board.move! params['move'].to_i
+  check_for_win
   redirect '/game'
+end
+
+def check_for_win
+  return unless @board&.win?
+  @storage.update_score @board.initial_seed, @board.moves
+  redirect '/game/win'
 end
