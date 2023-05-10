@@ -20,6 +20,12 @@
             </dd>
           </dl>
           <dl>
+            <dt>Lowest Moves:</dt>
+            <dd>
+              <%= highscore @board.initial_seed %>
+            </dd>
+          </dl>
+          <dl>
             <dt>New Game</dt>
             <dd>
               <a href="/game/<%= LIGHTSOUT.random_seed %>">

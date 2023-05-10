@@ -4,6 +4,9 @@
           Moves made: <%= @board.moves %>
         </li>
         <li>
+          Current lowest: <%= highscore @board.initial_seed %>
+        </li>
+        <li>
           Initial Seed:
           <a href="/game/<%= @board.initial_seed %>">
             <%= @board.initial_seed %>
