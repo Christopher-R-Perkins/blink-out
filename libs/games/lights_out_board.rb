@@ -8,7 +8,7 @@ module Games
 
     def self.random_seed
       6.times.with_object([]) do |_, out|
-        out << ("%02x" % (0...35).to_a.sample)
+        out << format("%02x", (0...35).to_a.sample)
       end.join
     end
 
@@ -17,7 +17,7 @@ module Games
       values = []
 
       while idx < 12
-        values << seed[idx,2].to_i(16)
+        values << seed[idx, 2].to_i(16)
         idx += 2
       end
 
@@ -75,7 +75,7 @@ module Games
     private
 
     def to_seed
-      @lights.map { |row| '%02x' % row }.join
+      @lights.map { |row| format '%02x', row }.join
     end
   end
 end
