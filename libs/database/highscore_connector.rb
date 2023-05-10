@@ -4,15 +4,9 @@ module Database
   class HighscoreConnector
     def initialize(logger)
       if ENV["RACK_ENV"] == "test"
-        @db = PG.connect dbname: "blink_out"
-        @table = 'testscores'
+        connect_test_db
       else
-        @db = if Sinatra::Base.production?
-                PG.connect ENV['DATABASE_URL']
-              else
-                PG.connect dbname: "blink_out"
-              end
-        @table = 'highscores'
+        connect_db
       end
       @logger = logger
     end
@@ -34,7 +28,7 @@ module Database
     end
 
     def query(statement, *params)
-      @logger.info "#{statement}: #{params}" unless @logger.nil?
+      @logger&.info "#{statement}: #{params}"
       @db.exec_params statement, params
     end
 
@@ -43,6 +37,7 @@ module Database
     end
 
     private
+
     def new_seed(seed, score)
       sql = <<~SQL
         INSERT INTO #{@table} (seed, score)
@@ -58,6 +53,20 @@ module Database
          WHERE seed = $1;
       SQL
       query sql, seed.downcase, score
+    end
+
+    def connect_test_db
+      @db = PG.connect dbname: "blink_out"
+      @table = 'testscores'
+    end
+
+    def connect_db
+      @db = if Sinatra::Base.production?
+              PG.connect ENV['DATABASE_URL']
+            else
+              PG.connect dbname: "blink_out"
+            end
+      @table = 'highscores'
     end
   end
 end

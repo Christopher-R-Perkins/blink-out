@@ -69,7 +69,7 @@ module Games
     end
 
     def win?
-      @lights.all? &:zero?
+      @lights.all?(&:zero?)
     end
 
     private
